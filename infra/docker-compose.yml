@@ -19,6 +19,9 @@ services:
       - GENERIC_TIMEZONE=Europe/Madrid
       - TZ=Europe/Madrid
       - N8N_SECURE_COOKIE=${N8N_SECURE_COOKIE}
+      # Directorio con nodos de comunidad precompilados (multi-stage build)
+      # N8N buscará node_modules en este directorio
+      - N8N_CUSTOM_EXTENSIONS=/n8n-custom-nodes
     volumes:
       - ./data/n8n:/home/node/.n8n
       - ./data/db:/data/db
