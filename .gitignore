@@ -1,0 +1,16 @@
+# Variables de entorno
+.env
+
+# Medios (demasiado pesados para git)
+media/
+
+# Base de datos local
+*.db
+*.sqlite
+
+# N8N datos locales
+.n8n/
+
+# Sistema
+.DS_Store
+Thumbs.db
