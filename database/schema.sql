@@ -42,13 +42,14 @@ CREATE TABLE IF NOT EXISTS assets (
     -- Estado en el ciclo de vida
     estado              TEXT NOT NULL DEFAULT 'subido'
                         CHECK(estado IN (
-                            'subido',           -- Recién llegado al sistema
-                            'analizando',       -- Claude Vision procesando
-                            'pendiente_revision',-- Sugerencias listas, esperando aprobación
-                            'error_analisis',   -- No se pudo analizar (baja res, formato, etc.)
-                            'disponible',       -- Aprobado, listo para publicar
-                            'programado',       -- En cola de publicación
-                            'publicado'         -- Publicado en al menos una plataforma
+                            'subido',             -- Recién llegado al sistema
+                            'analizando',         -- Claude Vision procesando
+                            'pendiente_revision', -- Sugerencias listas, esperando aprobación
+                            'error_analisis',     -- No se pudo analizar (baja res, formato, etc.)
+                            'disponible',         -- Aprobado, listo para publicar
+                            'programado',         -- En cola de publicación
+                            'publicado',          -- Publicado en al menos una plataforma
+                            'descartado'          -- Revisado y descartado por la gestora
                         )),
     error_detalle       TEXT,                   -- Descripción del error si estado = error_analisis
 
@@ -90,8 +91,48 @@ CREATE INDEX IF NOT EXISTS idx_pub_fecha      ON publicaciones(fecha);
 
 
 -- ============================================================
+-- TABLA: configuracion
+-- Parámetros del sistema gestionados desde el frontend
+-- Programación de publicación automática y notificaciones
+-- ============================================================
+CREATE TABLE IF NOT EXISTS configuracion (
+    clave       TEXT PRIMARY KEY,
+    valor       TEXT NOT NULL DEFAULT '',
+    descripcion TEXT
+);
+
+-- Valores por defecto (INSERT OR IGNORE: no sobreescribe si ya existen)
+
+-- Programación Instagram
+INSERT OR IGNORE INTO configuracion VALUES
+    ('instagram_activo',       '1',     'Publicación automática en Instagram activa (1/0)'),
+    ('instagram_posts_semana', '3',     'Máximo de publicaciones automáticas por semana'),
+    ('instagram_horario',      '10:00', 'Hora preferida de publicación (HH:MM, zona Europe/Madrid)'),
+    ('instagram_dias',         '1,3,5', 'Días de la semana (1=lun, 2=mar … 7=dom)');
+
+-- Programación Web
+INSERT OR IGNORE INTO configuracion VALUES
+    ('web_activo',             '1',     'Publicación automática en web activa (1/0)'),
+    ('web_posts_semana',       '2',     'Máximo de publicaciones automáticas por semana'),
+    ('web_horario',            '11:00', 'Hora preferida de publicación (HH:MM, zona Europe/Madrid)'),
+    ('web_dias',               '2,4',   'Días de la semana (1=lun, 2=mar … 7=dom)');
+
+-- Notificaciones Telegram
+INSERT OR IGNORE INTO configuracion VALUES
+    ('notif_telegram_token',   '', 'Bot token de Telegram (vacío = Telegram desactivado)'),
+    ('notif_telegram_chat_id', '', 'Chat ID del destinatario Telegram');
+
+-- Notificaciones Email (alternativa a Telegram)
+INSERT OR IGNORE INTO configuracion VALUES
+    ('notif_email',            '', 'Dirección de email destino (vacío = email desactivado)'),
+    ('notif_email_smtp_host',  '', 'Servidor SMTP'),
+    ('notif_email_smtp_user',  '', 'Usuario SMTP'),
+    ('notif_email_smtp_pass',  '', 'Contraseña SMTP');
+
+
+-- ============================================================
 -- VISTA: assets_disponibles
--- Assets listos para publicar (uso frecuente en workflows N8N)
+-- Assets listos para publicar (uso frecuente en W3 auto-publisher)
 -- ============================================================
 CREATE VIEW IF NOT EXISTS assets_disponibles AS
 SELECT
@@ -105,10 +146,25 @@ WHERE a.estado = 'disponible';
 
 -- ============================================================
 -- VISTA: bandeja_revision
--- Assets pendientes de revisión (para el frontend)
+-- Assets pendientes de revisión (para el frontend — W4)
 -- ============================================================
 CREATE VIEW IF NOT EXISTS bandeja_revision AS
 SELECT *
 FROM assets
 WHERE estado IN ('pendiente_revision', 'error_analisis')
 ORDER BY fecha_subida DESC;
+
+
+-- ============================================================
+-- VISTA: publicaciones_semana
+-- Conteo de publicaciones exitosas por plataforma en la semana actual
+-- Usada por W3 para decidir si toca publicar
+-- ============================================================
+CREATE VIEW IF NOT EXISTS publicaciones_semana AS
+SELECT
+    plataforma,
+    COUNT(*) AS total
+FROM publicaciones
+WHERE estado = 'ok'
+  AND strftime('%Y-%W', fecha) = strftime('%Y-%W', 'now')
+GROUP BY plataforma;

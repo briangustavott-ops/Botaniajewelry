@@ -103,6 +103,7 @@ Google Drive ──────► Frontend (:3000)
 | [Biblioteca de contenido](docs/05-biblioteca-contenido.md) | Estados de assets, esquema SQLite y reglas de selección |
 | [MCPs e integraciones](docs/06-mcps-e-integraciones.md) | MCPs de Claude, generación de imágenes y captura de comentarios |
 | [Frontend — Panel de control](docs/07-frontend.md) | Mockups y descripción de cada sección |
+| [Workflows N8N](docs/08-workflows.md) | Diseño de los 7 workflows: triggers, flujos, endpoints webhook y schema |
 
 ### Guías de instalación
 
