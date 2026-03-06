@@ -92,6 +92,8 @@ Google Drive ──────► Frontend (:3000)
 
 ## Documentación
 
+### Diseño del sistema
+
 | Documento | Descripción |
 |-----------|-------------|
 | [Visión del proyecto](docs/01-vision.md) | Objetivos, casos de uso y alcance |
@@ -101,6 +103,16 @@ Google Drive ──────► Frontend (:3000)
 | [Biblioteca de contenido](docs/05-biblioteca-contenido.md) | Estados de assets, esquema SQLite y reglas de selección |
 | [MCPs e integraciones](docs/06-mcps-e-integraciones.md) | MCPs de Claude, generación de imágenes y captura de comentarios |
 | [Frontend — Panel de control](docs/07-frontend.md) | Mockups y descripción de cada sección |
+
+### Guías de instalación
+
+| Guía | Descripción |
+|------|-------------|
+| [00 — VM Ubuntu Server](docs/setup/00-vm-ubuntu.md) | Crear la VM, configurar red NAT + Host-Only ✅ |
+| [01 — Docker](docs/setup/01-docker.md) | Instalar Docker Engine + Docker Compose |
+| 02 — N8N | Levantar N8N con Docker Compose *(próximamente)* |
+| 03 — Frontend | Desplegar el panel de control *(próximamente)* |
+| 04 — Google Drive | Configurar la integración con Drive *(próximamente)* |
 
 ---
 
