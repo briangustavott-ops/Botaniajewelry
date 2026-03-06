@@ -1,0 +1,134 @@
+<svg width="1000" height="620" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+  <defs>
+    <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#1E1208" flood-opacity="0.07"/></filter>
+    <filter id="shadow-sm"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#1E1208" flood-opacity="0.05"/></filter>
+  </defs>
+  <rect width="1000" height="620" fill="#F7F2EC"/>
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <rect width="220" height="620" fill="#1E1208"/>
+  <rect width="220" height="70" fill="#140C04"/>
+  <circle cx="30" cy="35" r="16" fill="#2A1508"/>
+  <text x="30" y="41" text-anchor="middle" fill="#C17D3C" font-size="18">✿</text>
+  <text x="125" y="29" text-anchor="middle" fill="#E8C4A0" font-size="14" font-weight="bold">Botania Jewelry</text>
+  <text x="125" y="50" text-anchor="middle" fill="#6B4C2A" font-size="11">Panel de control</text>
+  <text x="22" y="102" fill="#8B7355" font-size="13">📥  Bandeja de revisión</text>
+  <circle cx="203" cy="97" r="10" fill="#E53935"/>
+  <text x="203" y="101" text-anchor="middle" fill="white" font-size="10" font-weight="bold">3</text>
+  <text x="22" y="140" fill="#8B7355" font-size="13">📤  Subir contenido</text>
+  <text x="22" y="178" fill="#8B7355" font-size="13">📚  Biblioteca</text>
+  <text x="22" y="216" fill="#8B7355" font-size="13">📱  Publicar</text>
+
+  <!-- Nav: Etsy ACTIVE -->
+  <rect x="0" y="230" width="220" height="38" fill="#5C2D0E"/>
+  <rect x="0" y="230" width="4" height="38" fill="#C17D3C"/>
+  <text x="22" y="254" fill="#FFFFFF" font-size="13">📦  Productos Etsy</text>
+
+  <text x="22" y="292" fill="#8B7355" font-size="13">⚙️  Gestión de APIs</text>
+  <line x1="15" y1="314" x2="205" y2="314" stroke="#2A1508"/>
+  <text x="22" y="334" fill="#6B4C2A" font-size="10" letter-spacing="1">SERVICIOS</text>
+  <circle cx="22" cy="354" r="5" fill="#4CAF50"/>
+  <text x="36" y="358" fill="#8B7355" font-size="11">Instagram API</text>
+  <circle cx="22" cy="374" r="5" fill="#4CAF50"/>
+  <text x="36" y="378" fill="#8B7355" font-size="11">Etsy API</text>
+  <circle cx="22" cy="394" r="5" fill="#FF9800"/>
+  <text x="36" y="398" fill="#8B7355" font-size="11">Meta Token (12d) ⚠</text>
+  <circle cx="22" cy="414" r="5" fill="#4CAF50"/>
+  <text x="36" y="418" fill="#8B7355" font-size="11">Claude API</text>
+  <text x="22" y="605" fill="#3A2010" font-size="10">v1.0 · Botania © 2025</text>
+
+  <!-- ══════════ TOP BAR ══════════ -->
+  <rect x="220" y="0" width="780" height="65" fill="white"/>
+  <line x1="220" y1="65" x2="1000" y2="65" stroke="#E8DDD5"/>
+  <text x="242" y="33" fill="#1E1208" font-size="18" font-weight="bold">Nuevo producto en Etsy</text>
+  <text x="242" y="53" fill="#9B8878" font-size="12">La IA genera título, descripción y tags en inglés · Tú fijas el precio y el stock</text>
+
+  <!-- ══════════ LEFT — Fotos ══════════ -->
+  <rect x="232" y="78" width="280" height="510" rx="10" fill="white" filter="url(#shadow)"/>
+  <text x="252" y="108" fill="#1E1208" font-size="14" font-weight="bold">Fotos del producto</text>
+  <text x="252" y="124" fill="#9B8878" font-size="11">Selecciona hasta 10 · La primera es la foto principal</text>
+
+  <!-- Main photo selected -->
+  <rect x="252" y="132" width="240" height="160" rx="8" fill="#F5E6D3"/>
+  <text x="372" y="222" text-anchor="middle" fill="#C17D3C" font-size="64">🌸</text>
+  <rect x="252" y="132" width="50" height="22" rx="5" fill="#C17D3C"/>
+  <text x="277" y="147" text-anchor="middle" fill="white" font-size="10">Principal</text>
+
+  <!-- Photo grid -->
+  <text x="252" y="316" fill="#6B5744" font-size="12" font-weight="bold">Otras fotos</text>
+  <!-- thumb 1 selected -->
+  <rect x="252" y="324" width="72" height="72" rx="6" fill="#F5E6D3" stroke="#C17D3C" stroke-width="2"/>
+  <text x="288" y="366" text-anchor="middle" fill="#C17D3C" font-size="28">🌸</text>
+  <!-- thumb 2 -->
+  <rect x="332" y="324" width="72" height="72" rx="6" fill="#E8D8C0"/>
+  <text x="368" y="366" text-anchor="middle" fill="#8B6040" font-size="28">🌸</text>
+  <!-- thumb 3 -->
+  <rect x="412" y="324" width="72" height="72" rx="6" fill="#EEE4D8"/>
+  <text x="448" y="366" text-anchor="middle" fill="#A08060" font-size="28">🌸</text>
+  <!-- add more -->
+  <rect x="252" y="404" width="232" height="72" rx="6" fill="#FAF7F4" stroke="#E8DDD5" stroke-width="1" stroke-dasharray="6,4"/>
+  <text x="368" y="446" text-anchor="middle" fill="#C17D3C" font-size="22">+</text>
+  <text x="368" y="464" text-anchor="middle" fill="#9B8878" font-size="11">Añadir más fotos</text>
+
+  <!-- Order tip -->
+  <rect x="252" y="484" width="240" height="36" rx="6" fill="#E3F2FD"/>
+  <text x="372" y="499" text-anchor="middle" fill="#1565C0" font-size="10" font-weight="bold">💡 Consejo</text>
+  <text x="372" y="514" text-anchor="middle" fill="#1565C0" font-size="10">Arrastra para reordenar las fotos</text>
+
+  <!-- Reorder note -->
+  <text x="252" y="562" fill="#9B8878" font-size="10">Fondo neutro = más conversiones en Etsy</text>
+
+  <!-- ══════════ RIGHT — Formulario ══════════ -->
+  <rect x="526" y="78" width="462" height="510" rx="10" fill="white" filter="url(#shadow)"/>
+
+  <!-- AI generate button (prominent) -->
+  <rect x="546" y="90" width="422" height="42" rx="8" fill="linear-gradient(90deg,#C17D3C,#8B4513)"/>
+  <rect x="546" y="90" width="422" height="42" rx="8" fill="#C17D3C"/>
+  <text x="757" y="116" text-anchor="middle" fill="white" font-size="14" font-weight="bold">✨ Generar listing completo con IA</text>
+
+  <line x1="546" y1="144" x2="960" y2="144" stroke="#E8DDD5"/>
+
+  <!-- Título -->
+  <text x="546" y="166" fill="#6B5744" font-size="12" font-weight="bold">Título (EN) <tspan fill="#9B8878" font-weight="normal" font-size="10">· generado por IA · editable</tspan></text>
+  <rect x="546" y="172" width="422" height="34" rx="6" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="560" y="194" fill="#1E1208" font-size="12">Resin Flower Earrings · Blue Daisy · Boho Handmade Jewelry</text>
+
+  <!-- Descripción -->
+  <text x="546" y="224" fill="#6B5744" font-size="12" font-weight="bold">Descripción (EN) <tspan fill="#9B8878" font-weight="normal" font-size="10">· generada por IA · editable</tspan></text>
+  <rect x="546" y="230" width="422" height="88" rx="6" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="560" y="250" fill="#6B5744" font-size="11">✨ These beautiful handmade earrings feature real blue daisy</text>
+  <text x="560" y="268" fill="#6B5744" font-size="11">flowers carefully preserved in clear resin. Each piece is</text>
+  <text x="560" y="286" fill="#6B5744" font-size="11">unique, as nature intended. Perfect for nature lovers and</text>
+  <text x="560" y="304" fill="#6B5744" font-size="11">boho style enthusiasts...</text>
+
+  <!-- Tags -->
+  <text x="546" y="338" fill="#6B5744" font-size="12" font-weight="bold">Tags (EN) <tspan fill="#9B8878" font-weight="normal" font-size="10">· hasta 13</tspan></text>
+  <rect x="546" y="344" width="422" height="34" rx="6" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="560" y="366" fill="#6B5744" font-size="11">resin jewelry, flower earrings, boho, handmade, nature...</text>
+
+  <!-- Precio + Stock + Categoría -->
+  <rect x="546" y="392" width="135" height="56" rx="6" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="614" y="411" text-anchor="middle" fill="#6B5744" font-size="11" font-weight="bold">Precio (€) *</text>
+  <text x="614" y="438" text-anchor="middle" fill="#1E1208" font-size="20" font-weight="bold">24,90</text>
+
+  <rect x="689" y="392" width="100" height="56" rx="6" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="739" y="411" text-anchor="middle" fill="#6B5744" font-size="11" font-weight="bold">Stock *</text>
+  <text x="739" y="438" text-anchor="middle" fill="#1E1208" font-size="20" font-weight="bold">3</text>
+
+  <rect x="797" y="392" width="171" height="56" rx="6" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="883" y="411" text-anchor="middle" fill="#6B5744" font-size="11" font-weight="bold">Categoría</text>
+  <text x="883" y="432" text-anchor="middle" fill="#1E1208" font-size="11">Jewelry &gt; Earrings</text>
+  <text x="883" y="446" text-anchor="middle" fill="#9B8878" font-size="10">▾ cambiar</text>
+
+  <text x="546" y="466" fill="#9B8878" font-size="10">* campos obligatorios que debes completar tú</text>
+
+  <!-- Action buttons -->
+  <rect x="546" y="478" width="204" height="40" rx="8" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1.5"/>
+  <text x="648" y="503" text-anchor="middle" fill="#6B5744" font-size="13">📝 Crear borrador en Etsy</text>
+
+  <rect x="758" y="478" width="210" height="40" rx="8" fill="#F35A24"/>
+  <text x="863" y="503" text-anchor="middle" fill="white" font-size="13" font-weight="bold">🛍 Publicar en Etsy</text>
+
+  <!-- Note -->
+  <text x="757" y="542" text-anchor="middle" fill="#9B8878" font-size="10">El borrador te permite revisar en Etsy antes de publicar</text>
+</svg>

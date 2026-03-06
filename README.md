@@ -22,6 +22,7 @@ El objetivo es que la IA seleccione y publique contenido de forma periódica y a
 | [Fases del proyecto](docs/04-fases.md) | Hoja de ruta e hitos |
 | [Biblioteca de contenido](docs/05-biblioteca-contenido.md) | Estructura del repositorio multimedia |
 | [MCPs e integraciones](docs/06-mcps-e-integraciones.md) | MCPs de Claude, generación de imágenes y captura de comentarios |
+| [Frontend — Panel de control](docs/07-frontend.md) | Diseño y mockups de la interfaz de gestión |
 
 ## Estado actual
 

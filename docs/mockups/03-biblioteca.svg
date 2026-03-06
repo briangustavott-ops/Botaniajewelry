@@ -1,0 +1,150 @@
+<svg width="1000" height="620" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+  <defs>
+    <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#1E1208" flood-opacity="0.07"/></filter>
+    <filter id="shadow-sm"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#1E1208" flood-opacity="0.05"/></filter>
+  </defs>
+  <rect width="1000" height="620" fill="#F7F2EC"/>
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <rect width="220" height="620" fill="#1E1208"/>
+  <rect width="220" height="70" fill="#140C04"/>
+  <circle cx="30" cy="35" r="16" fill="#2A1508"/>
+  <text x="30" y="41" text-anchor="middle" fill="#C17D3C" font-size="18">✿</text>
+  <text x="125" y="29" text-anchor="middle" fill="#E8C4A0" font-size="14" font-weight="bold">Botania Jewelry</text>
+  <text x="125" y="50" text-anchor="middle" fill="#6B4C2A" font-size="11">Panel de control</text>
+  <text x="22" y="102" fill="#8B7355" font-size="13">📥  Bandeja de revisión</text>
+  <circle cx="203" cy="97" r="10" fill="#E53935"/>
+  <text x="203" y="101" text-anchor="middle" fill="white" font-size="10" font-weight="bold">3</text>
+  <text x="22" y="140" fill="#8B7355" font-size="13">📤  Subir contenido</text>
+
+  <!-- Nav: Biblioteca ACTIVE -->
+  <rect x="0" y="154" width="220" height="38" fill="#5C2D0E"/>
+  <rect x="0" y="154" width="4" height="38" fill="#C17D3C"/>
+  <text x="22" y="178" fill="#FFFFFF" font-size="13">📚  Biblioteca</text>
+
+  <text x="22" y="216" fill="#8B7355" font-size="13">📱  Publicar</text>
+  <text x="22" y="254" fill="#8B7355" font-size="13">📦  Productos Etsy</text>
+  <text x="22" y="292" fill="#8B7355" font-size="13">⚙️  Gestión de APIs</text>
+  <line x1="15" y1="314" x2="205" y2="314" stroke="#2A1508"/>
+  <text x="22" y="334" fill="#6B4C2A" font-size="10" letter-spacing="1">SERVICIOS</text>
+  <circle cx="22" cy="354" r="5" fill="#4CAF50"/>
+  <text x="36" y="358" fill="#8B7355" font-size="11">Instagram API</text>
+  <circle cx="22" cy="374" r="5" fill="#4CAF50"/>
+  <text x="36" y="378" fill="#8B7355" font-size="11">Etsy API</text>
+  <circle cx="22" cy="394" r="5" fill="#FF9800"/>
+  <text x="36" y="398" fill="#8B7355" font-size="11">Meta Token (12d) ⚠</text>
+  <circle cx="22" cy="414" r="5" fill="#4CAF50"/>
+  <text x="36" y="418" fill="#8B7355" font-size="11">Claude API</text>
+  <text x="22" y="605" fill="#3A2010" font-size="10">v1.0 · Botania © 2025</text>
+
+  <!-- ══════════ TOP BAR ══════════ -->
+  <rect x="220" y="0" width="780" height="65" fill="white"/>
+  <line x1="220" y1="65" x2="1000" y2="65" stroke="#E8DDD5"/>
+  <text x="242" y="33" fill="#1E1208" font-size="18" font-weight="bold">Biblioteca de contenido</text>
+  <text x="242" y="53" fill="#9B8878" font-size="12">24 assets · 8 disponibles · 12 publicados · 4 pendientes de revisión</text>
+  <rect x="845" y="16" width="140" height="33" rx="7" fill="#C17D3C"/>
+  <text x="915" y="38" text-anchor="middle" fill="white" font-size="12">📤 Subir nuevo</text>
+
+  <!-- ══════════ FILTER BAR ══════════ -->
+  <rect x="232" y="78" width="756" height="48" rx="8" fill="white" filter="url(#shadow-sm)"/>
+  <!-- Search -->
+  <rect x="248" y="90" width="240" height="26" rx="6" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="262" y="108" fill="#B0A090" font-size="12">🔍  Buscar assets...</text>
+  <!-- Filters -->
+  <rect x="504" y="90" width="110" height="26" rx="6" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="514" y="108" fill="#6B5744" font-size="11">Categoría ▾</text>
+  <rect x="622" y="90" width="100" height="26" rx="6" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="632" y="108" fill="#6B5744" font-size="11">Estado ▾</text>
+  <rect x="730" y="90" width="120" height="26" rx="6" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="740" y="108" fill="#6B5744" font-size="11">Plataforma ▾</text>
+  <rect x="858" y="90" width="60" height="26" rx="6" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="888" y="108" text-anchor="middle" fill="#6B5744" font-size="11">⊞ ≡</text>
+
+  <!-- ══════════ ASSET GRID — Row 1 ══════════ -->
+  <!-- Card A: Disponible -->
+  <rect x="232" y="140" width="232" height="190" rx="10" fill="white" filter="url(#shadow)"/>
+  <rect x="232" y="140" width="232" height="120" rx="10" fill="#F5E6D3"/>
+  <rect x="232" y="220" width="232" height="40" rx="0" fill="#F5E6D3"/>
+  <text x="348" y="210" text-anchor="middle" fill="#C17D3C" font-size="52">🌸</text>
+  <rect x="246" y="150" width="68" height="20" rx="10" fill="#E8F5E9"/>
+  <text x="280" y="164" text-anchor="middle" fill="#2E7D32" font-size="10">● Disponible</text>
+  <text x="248" y="280" fill="#1E1208" font-size="12" font-weight="bold">pendientes_azules_001</text>
+  <text x="248" y="297" fill="#9B8878" font-size="10">Pendientes · Foto · ES+EN</text>
+  <text x="248" y="315" fill="#9B8878" font-size="10">📱 Instagram · 🛍 Etsy</text>
+  <rect x="248" y="323" width="80" height="22" rx="5" fill="#C17D3C"/>
+  <text x="288" y="338" text-anchor="middle" fill="white" font-size="10">Publicar ahora</text>
+
+  <!-- Card B: Publicado -->
+  <rect x="479" y="140" width="232" height="190" rx="10" fill="white" filter="url(#shadow)"/>
+  <rect x="479" y="140" width="232" height="120" rx="10" fill="#E8D8C0"/>
+  <rect x="479" y="220" width="232" height="40" rx="0" fill="#E8D8C0"/>
+  <text x="595" y="210" text-anchor="middle" fill="#8B6040" font-size="52">💍</text>
+  <rect x="493" y="150" width="70" height="20" rx="10" fill="#E3F2FD"/>
+  <text x="528" y="164" text-anchor="middle" fill="#1565C0" font-size="10">✓ Publicado</text>
+  <text x="495" y="280" fill="#1E1208" font-size="12" font-weight="bold">anillo_perla_001</text>
+  <text x="495" y="297" fill="#9B8878" font-size="10">Anillos · Foto · EN</text>
+  <text x="495" y="315" fill="#9B8878" font-size="10">📱 Instagram · Lun 3 mar</text>
+  <rect x="495" y="323" width="80" height="22" rx="5" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="535" y="338" text-anchor="middle" fill="#6B5744" font-size="10">Ver post</text>
+
+  <!-- Card C: Disponible (vídeo) -->
+  <rect x="726" y="140" width="262" height="190" rx="10" fill="white" filter="url(#shadow)"/>
+  <rect x="726" y="140" width="262" height="120" rx="10" fill="#1E1208"/>
+  <rect x="726" y="220" width="262" height="40" rx="0" fill="#1E1208"/>
+  <text x="857" y="210" text-anchor="middle" fill="white" font-size="52">▶</text>
+  <rect x="740" y="150" width="68" height="20" rx="10" fill="#E8F5E9"/>
+  <text x="774" y="164" text-anchor="middle" fill="#2E7D32" font-size="10">● Disponible</text>
+  <text x="742" y="280" fill="#1E1208" font-size="12" font-weight="bold">proceso_resina_001.mp4</text>
+  <text x="742" y="297" fill="#9B8878" font-size="10">Proceso · Vídeo · 0:32 · ES</text>
+  <text x="742" y="315" fill="#9B8878" font-size="10">📹 Instagram Reel</text>
+  <rect x="742" y="323" width="80" height="22" rx="5" fill="#C17D3C"/>
+  <text x="782" y="338" text-anchor="middle" fill="white" font-size="10">Publicar ahora</text>
+
+  <!-- ══════════ ASSET GRID — Row 2 ══════════ -->
+  <!-- Card D: Pendiente revisión -->
+  <rect x="232" y="346" width="232" height="190" rx="10" fill="white" filter="url(#shadow)"/>
+  <rect x="232" y="346" width="232" height="120" rx="10" fill="#FFF8F0"/>
+  <rect x="232" y="426" width="232" height="40" rx="0" fill="#FFF8F0"/>
+  <text x="348" y="416" text-anchor="middle" fill="#FF9800" font-size="52">⏳</text>
+  <rect x="246" y="356" width="100" height="20" rx="10" fill="#FFF3E0"/>
+  <text x="296" y="370" text-anchor="middle" fill="#E65100" font-size="10">⏳ Pend. revisión</text>
+  <text x="248" y="486" fill="#1E1208" font-size="12" font-weight="bold">colgante_lavanda_003</text>
+  <text x="248" y="503" fill="#9B8878" font-size="10">Colgantes · Foto · Sin revisar</text>
+  <rect x="248" y="516" width="110" height="22" rx="5" fill="#FFF3E0" stroke="#FF9800" stroke-width="1"/>
+  <text x="303" y="531" text-anchor="middle" fill="#E65100" font-size="10">Revisar sugerencias</text>
+
+  <!-- Card E: Publicado en múltiples -->
+  <rect x="479" y="346" width="232" height="190" rx="10" fill="white" filter="url(#shadow)"/>
+  <rect x="479" y="346" width="232" height="120" rx="10" fill="#F0EAE0"/>
+  <rect x="479" y="426" width="232" height="40" rx="0" fill="#F0EAE0"/>
+  <text x="595" y="416" text-anchor="middle" fill="#7B5E3A" font-size="52">🌿</text>
+  <rect x="493" y="356" width="70" height="20" rx="10" fill="#E3F2FD"/>
+  <text x="528" y="370" text-anchor="middle" fill="#1565C0" font-size="10">✓ Publicado</text>
+  <text x="495" y="486" fill="#1E1208" font-size="12" font-weight="bold">pendientes_verde_002</text>
+  <text x="495" y="503" fill="#9B8878" font-size="10">Pendientes · Foto · ES+EN</text>
+  <text x="495" y="521" fill="#9B8878" font-size="10">📱 IG · 🛍 Etsy · 🌐 Web</text>
+
+  <!-- Card F: Disponible -->
+  <rect x="726" y="346" width="262" height="190" rx="10" fill="white" filter="url(#shadow)"/>
+  <rect x="726" y="346" width="262" height="120" rx="10" fill="#F5E6D3"/>
+  <rect x="726" y="426" width="262" height="40" rx="0" fill="#F5E6D3"/>
+  <text x="857" y="416" text-anchor="middle" fill="#C17D3C" font-size="52">💎</text>
+  <rect x="740" y="356" width="68" height="20" rx="10" fill="#E8F5E9"/>
+  <text x="774" y="370" text-anchor="middle" fill="#2E7D32" font-size="10">● Disponible</text>
+  <text x="742" y="486" fill="#1E1208" font-size="12" font-weight="bold">anillo_margarita_002</text>
+  <text x="742" y="503" fill="#9B8878" font-size="10">Anillos · Foto · EN</text>
+  <text x="742" y="521" fill="#9B8878" font-size="10">🛍 Etsy · 🌐 Web</text>
+  <rect x="742" y="530" width="80" height="22" rx="5" fill="#C17D3C"/>
+  <text x="782" y="545" text-anchor="middle" fill="white" font-size="10">Publicar ahora</text>
+
+  <!-- Pagination -->
+  <text x="610" y="572" text-anchor="middle" fill="#9B8878" font-size="12">Mostrando 6 de 24 assets</text>
+  <rect x="550" y="582" width="32" height="24" rx="5" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="566" y="599" text-anchor="middle" fill="#9B8878" font-size="12">‹</text>
+  <rect x="588" y="582" width="32" height="24" rx="5" fill="#C17D3C"/>
+  <text x="604" y="599" text-anchor="middle" fill="white" font-size="12">1</text>
+  <rect x="626" y="582" width="32" height="24" rx="5" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="642" y="599" text-anchor="middle" fill="#6B5744" font-size="12">2</text>
+  <rect x="664" y="582" width="32" height="24" rx="5" fill="#F7F2EC" stroke="#E8DDD5" stroke-width="1"/>
+  <text x="680" y="599" text-anchor="middle" fill="#9B8878" font-size="12">›</text>
+</svg>
