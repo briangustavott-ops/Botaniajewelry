@@ -24,7 +24,7 @@
       },
       "id": "w2-node-02",
       "name": "Get Asset",
-      "type": "n8n-nodes-sqlite.sqlite",
+      "type": "CUSTOM.sqlite",
       "typeVersion": 1,
       "position": [320, 300]
     },
@@ -37,7 +37,7 @@
       },
       "id": "w2-node-03",
       "name": "Set Analizando",
-      "type": "n8n-nodes-sqlite.sqlite",
+      "type": "CUSTOM.sqlite",
       "typeVersion": 1,
       "position": [540, 300]
     },
@@ -123,7 +123,7 @@
       },
       "id": "w2-node-09",
       "name": "Update Success",
-      "type": "n8n-nodes-sqlite.sqlite",
+      "type": "CUSTOM.sqlite",
       "typeVersion": 1,
       "position": [1860, 180]
     },
@@ -136,7 +136,7 @@
       },
       "id": "w2-node-10",
       "name": "Update Error",
-      "type": "n8n-nodes-sqlite.sqlite",
+      "type": "CUSTOM.sqlite",
       "typeVersion": 1,
       "position": [1860, 420]
     },

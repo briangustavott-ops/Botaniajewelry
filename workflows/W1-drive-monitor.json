@@ -80,7 +80,7 @@
       },
       "id": "w1-node-05",
       "name": "Insert Asset",
-      "type": "n8n-nodes-sqlite.sqlite",
+      "type": "CUSTOM.sqlite",
       "typeVersion": 1,
       "position": [980, 300]
     },
