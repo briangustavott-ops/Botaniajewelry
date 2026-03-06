@@ -37,9 +37,10 @@
 - Todos los servicios corren como contenedores Docker
 
 ### Docker + Docker Compose
-- Servicios definidos en `docker-compose.yml`
+- Servicios definidos en `infra/docker-compose.yml` (versionado en el repo)
 - Contenedores: N8N, Frontend (FastAPI), SQLite volume
 - Arranque automático con `restart: unless-stopped`
+- **Imagen N8N personalizada** (`infra/Dockerfile`): multi-stage build que compila módulos nativos (sqlite3) en `node:24-alpine` y los copia a la imagen endurecida `n8nio/n8n` (DHI — sin gestor de paquetes)
 
 ### Google Drive
 - La gestora sube contenido desde el móvil o cualquier dispositivo
@@ -49,8 +50,9 @@
 
 ### N8N
 - Orquestador visual de workflows
-- Interfaz de administración: `http://localhost:5678`
+- Interfaz de administración: `http://192.168.137.10:5678`
 - Nodos clave utilizados: Google Drive, HTTP Request, Claude, Cron, SQLite, Webhook
+- Nodo SQLite incluido en la imagen vía multi-stage build (sin instalación manual)
 - Workflows exportados como JSON y versionados en `workflows/`
 
 ### FastAPI + HTML/JS (Frontend)
@@ -121,6 +123,8 @@ GOOGLE_DRIVE_CREDENTIALS_JSON=
 GOOGLE_DRIVE_FOLDER_ID_ENTRADA=
 GOOGLE_DRIVE_FOLDER_ID_INSTAGRAM=
 GOOGLE_DRIVE_FOLDER_ID_ETSY=
+GOOGLE_DRIVE_FOLDER_ID_WEB=
+GOOGLE_DRIVE_FOLDER_ID_TODOS=
 
 # ═══ Web propia ═══
 WEB_API_URL=
@@ -129,9 +133,16 @@ WEB_API_KEY=
 # ═══ Generación de imágenes ═══
 REPLICATE_API_TOKEN=
 
+# ═══ VM ═══
+VM_IP=192.168.137.10
+
 # ═══ N8N ═══
-N8N_BASIC_AUTH_USER=admin
-N8N_BASIC_AUTH_PASSWORD=
+N8N_USER=admin
+N8N_PASSWORD=
+N8N_SECURE_COOKIE=false
+
+# ═══ Frontend ═══
+FRONTEND_SECRET_KEY=
 ```
 
-> El archivo `.env` nunca se sube al repositorio. Ver `.env.example` para la plantilla.
+> El archivo `.env` nunca se sube al repositorio. Ver `.env.example` para la plantilla completa.
