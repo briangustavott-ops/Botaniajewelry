@@ -111,8 +111,9 @@ Google Drive ──────► Frontend (:3000)
 | [00 — VM Ubuntu Server](docs/setup/00-vm-ubuntu.md) | Crear la VM, configurar red NAT + Host-Only ✅ |
 | [01 — Docker](docs/setup/01-docker.md) | Instalar Docker Engine + Docker Compose |
 | [02 — N8N](docs/setup/02-n8n.md) | Levantar N8N con Docker Compose ✅ |
-| 03 — Frontend | Desplegar el panel de control *(próximamente)* |
-| 04 — Google Drive | Configurar la integración con Drive *(próximamente)* |
+| [03 — SQLite](docs/setup/03-sqlite.md) | Base de datos SQLite (esquema, vistas, integración N8N) |
+| 04 — Frontend | Desplegar el panel de control *(próximamente)* |
+| 05 — Google Drive | Configurar la integración con Drive *(próximamente)* |
 
 ---
 
