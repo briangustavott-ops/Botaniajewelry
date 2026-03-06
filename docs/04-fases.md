@@ -18,8 +18,8 @@ Fase 0 ──► Fase 1 ──► Fase 2 ──► Fase 3 ──► Fase 4 ─�
 - [x] Mockups del frontend
 - [x] Crear VM Ubuntu Server en VMware Workstation
 - [x] Configurar red: NAT (internet) + Host-Only 192.168.137.10 (host↔VM)
-- [ ] Instalar Docker + Docker Compose en la VM
-- [ ] Levantar N8N en la VM
+- [x] Instalar Docker + Docker Compose en la VM (v29.3.0 / v5.1.0)
+- [x] Levantar N8N en la VM (accesible en http://192.168.137.10:5678)
 - [ ] Crear base de datos SQLite con esquema inicial
 - [ ] Configurar `.env` con claves API
 

@@ -110,7 +110,7 @@ Google Drive ──────► Frontend (:3000)
 |------|-------------|
 | [00 — VM Ubuntu Server](docs/setup/00-vm-ubuntu.md) | Crear la VM, configurar red NAT + Host-Only ✅ |
 | [01 — Docker](docs/setup/01-docker.md) | Instalar Docker Engine + Docker Compose |
-| 02 — N8N | Levantar N8N con Docker Compose *(próximamente)* |
+| [02 — N8N](docs/setup/02-n8n.md) | Levantar N8N con Docker Compose ✅ |
 | 03 — Frontend | Desplegar el panel de control *(próximamente)* |
 | 04 — Google Drive | Configurar la integración con Drive *(próximamente)* |
 
@@ -118,9 +118,10 @@ Google Drive ──────► Frontend (:3000)
 
 ## Estado actual
 
-> **Fase 0** — Infraestructura y documentación inicial ✅
+> **Fase 0** — Infraestructura y documentación inicial ✅ · En progreso
 
-Próximo paso: crear la VM Ubuntu Server en VMware Workstation e instalar Docker + N8N.
+Completado: VM · Red · Docker · N8N
+Pendiente: base de datos SQLite · variables de entorno (.env)
 
 ---
 
