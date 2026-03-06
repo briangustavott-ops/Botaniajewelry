@@ -1,0 +1,116 @@
+{
+  "name": "W1 - Drive Monitor",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [{ "mode": "everyMinute" }]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "={{ $env.GOOGLE_DRIVE_FOLDER_ID_ENTRADA }}",
+          "mode": "id"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "id": "w1-node-01",
+      "name": "Watch Entrada",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [100, 300],
+      "credentials": {
+        "googleApi": {
+          "id": "MAPEAR_AL_IMPORTAR",
+          "name": "Google Drive (Service Account)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "w1-node-02",
+      "name": "Download File",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [320, 300],
+      "credentials": {
+        "googleApi": {
+          "id": "MAPEAR_AL_IMPORTAR",
+          "name": "Google Drive (Service Account)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const triggerData = $('Watch Entrada').first().json;\nconst binaryData = $input.first().binary?.data;\n\nconst now = new Date();\nconst ts = now.getFullYear().toString()\n  + String(now.getMonth()+1).padStart(2,'0')\n  + String(now.getDate()).padStart(2,'0')\n  + '_'\n  + String(now.getHours()).padStart(2,'0')\n  + String(now.getMinutes()).padStart(2,'0')\n  + String(now.getSeconds()).padStart(2,'0');\n\nconst originalName = binaryData?.fileName || triggerData.name || 'imagen.jpg';\nconst safeName = originalName.replace(/[^a-zA-Z0-9._-]/g, '_');\nconst fileName = `${ts}_${safeName}`;\nconst filePath = `/media/fotos/pendientes/${fileName}`;\nconst mimeType = binaryData?.mimeType || 'image/jpeg';\n\nreturn [{\n  json: { fileName, filePath, mimeType, originalName },\n  binary: $input.first().binary\n}];"
+      },
+      "id": "w1-node-03",
+      "name": "Build File Path",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [540, 300]
+    },
+    {
+      "parameters": {
+        "fileName": "={{ $json.filePath }}",
+        "dataPropertyName": "data",
+        "options": {}
+      },
+      "id": "w1-node-04",
+      "name": "Save to VM",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [760, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "database": "/data/db/assets.db",
+        "query": "INSERT INTO assets (archivo, nombre_original, tipo, origen, estado) VALUES ('{{ $json.filePath }}', '{{ $json.originalName }}', 'foto', 'drive_movil', 'subido') RETURNING id",
+        "options": {}
+      },
+      "id": "w1-node-05",
+      "name": "Insert Asset",
+      "type": "n8n-nodes-sqlite.sqlite",
+      "typeVersion": 1,
+      "position": [980, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://{{ $env.VM_IP }}:5678/webhook/analyze-asset",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "asset_id", "value": "={{ $json.id }}" }
+          ]
+        },
+        "options": { "timeout": 90000 }
+      },
+      "id": "w1-node-06",
+      "name": "Trigger W2 Analysis",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1200, 300]
+    }
+  ],
+  "connections": {
+    "Watch Entrada":    { "main": [[{ "node": "Download File",       "type": "main", "index": 0 }]] },
+    "Download File":    { "main": [[{ "node": "Build File Path",     "type": "main", "index": 0 }]] },
+    "Build File Path":  { "main": [[{ "node": "Save to VM",          "type": "main", "index": 0 }]] },
+    "Save to VM":       { "main": [[{ "node": "Insert Asset",        "type": "main", "index": 0 }]] },
+    "Insert Asset":     { "main": [[{ "node": "Trigger W2 Analysis", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "botania" }]
+}

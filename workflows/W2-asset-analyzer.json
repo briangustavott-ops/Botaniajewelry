@@ -1,0 +1,188 @@
+{
+  "name": "W2 - Asset Analyzer",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "analyze-asset",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "w2-node-01",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [100, 300],
+      "webhookId": "analyze-asset"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "database": "/data/db/assets.db",
+        "query": "SELECT * FROM assets WHERE id = {{ $json.asset_id }}",
+        "options": {}
+      },
+      "id": "w2-node-02",
+      "name": "Get Asset",
+      "type": "n8n-nodes-sqlite.sqlite",
+      "typeVersion": 1,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "database": "/data/db/assets.db",
+        "query": "UPDATE assets SET estado = 'analizando' WHERE id = {{ $('Webhook').first().json.asset_id }}",
+        "options": {}
+      },
+      "id": "w2-node-03",
+      "name": "Set Analizando",
+      "type": "n8n-nodes-sqlite.sqlite",
+      "typeVersion": 1,
+      "position": [540, 300]
+    },
+    {
+      "parameters": {
+        "dataPropertyName": "data",
+        "fileName": "={{ $('Get Asset').first().json.archivo }}"
+      },
+      "id": "w2-node-04",
+      "name": "Read Image",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [760, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first();\nconst bin = item.binary?.data;\nif (!bin) throw new Error('No se encontró la imagen en el path indicado');\n\nconst assetId = $('Webhook').first().json.asset_id;\nconst mimeType = bin.mimeType || 'image/jpeg';\nconst base64 = bin.data;\n\nconst prompt = `Analiza esta imagen de joyería artesanal de resina. Responde ÚNICAMENTE con un JSON válido con esta estructura exacta, sin texto adicional ni bloques de código markdown:\n\n{\n  \"tipo\": \"foto\",\n  \"categoria\": \"pendientes\" | \"anillos\" | \"colgantes\" | null,\n  \"colores\": \"colores principales de la pieza y flores\",\n  \"materiales\": \"materiales detectados separados por coma (resina, flores secas, metal dorado...)\",\n  \"caption_es\": \"caption atractivo en español para Instagram y web, máx 150 caracteres\",\n  \"caption_en\": \"attractive English caption for Etsy listing, max 150 characters\",\n  \"hashtags\": \"#resinajewelry #joyeriaresina #handmadejewelry #joyeriaartesanal #flowerjewelry (8-12 hashtags)\",\n  \"plataformas_destino\": \"instagram,web,etsy\" | \"instagram,web\" | \"instagram\",\n  \"descripcion\": \"descripción breve del producto en español\"\n}\n\nCriterio para plataformas_destino:\n- Incluir siempre instagram para fotografías\n- Incluir web si la composición y calidad son buenas para catálogo\n- Incluir etsy SOLO si el producto se ve claramente con fondo neutro/blanco y buena iluminación`;\n\nconst claudePayload = {\n  model: 'claude-opus-4-5',\n  max_tokens: 1024,\n  messages: [{\n    role: 'user',\n    content: [\n      {\n        type: 'image',\n        source: { type: 'base64', media_type: mimeType, data: base64 }\n      },\n      { type: 'text', text: prompt }\n    ]\n  }]\n};\n\nreturn [{ json: { assetId, claudePayload } }];"
+      },
+      "id": "w2-node-05",
+      "name": "Build Claude Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [980, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-api-key",          "value": "={{ $env.ANTHROPIC_API_KEY }}" },
+            { "name": "anthropic-version",  "value": "2023-06-01" },
+            { "name": "content-type",       "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.claudePayload) }}",
+        "options": { "timeout": 60000 }
+      },
+      "id": "w2-node-06",
+      "name": "Claude Vision",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1200, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.first().json;\nconst assetId = $('Webhook').first().json.asset_id;\n\ntry {\n  const text = response.content?.[0]?.text;\n  if (!text) throw new Error('Respuesta vacía de Claude');\n\n  // Extraer JSON (eliminar posibles bloques markdown)\n  const match = text.match(/\\{[\\s\\S]*\\}/);\n  if (!match) throw new Error('No se encontró JSON en la respuesta de Claude');\n\n  const parsed = JSON.parse(match[0]);\n\n  return [{\n    json: {\n      assetId,\n      success: true,\n      tipo:               parsed.tipo               || 'foto',\n      categoria:          parsed.categoria           || null,\n      colores:            parsed.colores             || '',\n      materiales:         parsed.materiales          || '',\n      caption_es:         parsed.caption_es          || '',\n      caption_en:         parsed.caption_en          || '',\n      hashtags:           parsed.hashtags            || '',\n      plataformas_destino: parsed.plataformas_destino || 'instagram',\n      descripcion:        parsed.descripcion         || ''\n    }\n  }];\n} catch(e) {\n  return [{\n    json: { assetId, success: false, error: e.message }\n  }];\n}"
+      },
+      "id": "w2-node-07",
+      "name": "Parse Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1420, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [{
+            "id": "check-success",
+            "leftValue": "={{ $json.success }}",
+            "rightValue": true,
+            "operator": { "type": "boolean", "operation": "true" }
+          }],
+          "combinator": "and"
+        }
+      },
+      "id": "w2-node-08",
+      "name": "Analysis OK?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1640, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "database": "/data/db/assets.db",
+        "query": "UPDATE assets SET tipo='{{ $json.tipo }}', categoria={{ $json.categoria ? \"'\" + $json.categoria + \"'\" : 'NULL' }}, colores='{{ $json.colores.replace(/'/g, \"''\") }}', materiales='{{ $json.materiales.replace(/'/g, \"''\") }}', caption_es='{{ $json.caption_es.replace(/'/g, \"''\") }}', caption_en='{{ $json.caption_en.replace(/'/g, \"''\") }}', hashtags='{{ $json.hashtags.replace(/'/g, \"''\") }}', plataformas_destino='{{ $json.plataformas_destino }}', descripcion='{{ $json.descripcion.replace(/'/g, \"''\") }}', estado='pendiente_revision', fecha_aprobacion=NULL WHERE id={{ $json.assetId }}",
+        "options": {}
+      },
+      "id": "w2-node-09",
+      "name": "Update Success",
+      "type": "n8n-nodes-sqlite.sqlite",
+      "typeVersion": 1,
+      "position": [1860, 180]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "database": "/data/db/assets.db",
+        "query": "UPDATE assets SET estado='error_analisis', error_detalle='{{ $json.error.replace(/'/g, \"''\") }}' WHERE id={{ $json.assetId }}",
+        "options": {}
+      },
+      "id": "w2-node-10",
+      "name": "Update Error",
+      "type": "n8n-nodes-sqlite.sqlite",
+      "typeVersion": 1,
+      "position": [1860, 420]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, asset_id: $('Webhook').first().json.asset_id }) }}",
+        "options": {}
+      },
+      "id": "w2-node-11",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [2080, 180]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: false, error: $('Parse Response').first().json.error }) }}",
+        "options": { "responseCode": 500 }
+      },
+      "id": "w2-node-12",
+      "name": "Respond Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [2080, 420]
+    }
+  ],
+  "connections": {
+    "Webhook":             { "main": [[{ "node": "Get Asset",          "type": "main", "index": 0 }]] },
+    "Get Asset":           { "main": [[{ "node": "Set Analizando",     "type": "main", "index": 0 }]] },
+    "Set Analizando":      { "main": [[{ "node": "Read Image",         "type": "main", "index": 0 }]] },
+    "Read Image":          { "main": [[{ "node": "Build Claude Payload","type": "main", "index": 0 }]] },
+    "Build Claude Payload":{ "main": [[{ "node": "Claude Vision",      "type": "main", "index": 0 }]] },
+    "Claude Vision":       { "main": [[{ "node": "Parse Response",     "type": "main", "index": 0 }]] },
+    "Parse Response":      { "main": [[{ "node": "Analysis OK?",       "type": "main", "index": 0 }]] },
+    "Analysis OK?": {
+      "main": [
+        [{ "node": "Update Success", "type": "main", "index": 0 }],
+        [{ "node": "Update Error",   "type": "main", "index": 0 }]
+      ]
+    },
+    "Update Success": { "main": [[{ "node": "Respond OK",    "type": "main", "index": 0 }]] },
+    "Update Error":   { "main": [[{ "node": "Respond Error", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "botania" }]
+}
