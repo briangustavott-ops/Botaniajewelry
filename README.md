@@ -119,10 +119,10 @@ Google Drive ──────► Frontend (:3000)
 
 ## Estado actual
 
-> **Fase 0** — Infraestructura y documentación inicial ✅ · En progreso
+> **Fase 0** — Infraestructura y documentación inicial ✅ · Completada · **Fase 1 — Google Drive + IA · En progreso**
 
-Completado: VM · Red · Docker · N8N
-Pendiente: base de datos SQLite · variables de entorno (.env)
+Completado: VM · Red · Docker · N8N · SQLite · imagen personalizada (multi-stage build)
+Próximo: Google Drive API · workflow de análisis con Claude Vision
 
 ---
 
