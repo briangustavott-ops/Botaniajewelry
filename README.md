@@ -21,6 +21,7 @@ El objetivo es que la IA seleccione y publique contenido de forma periódica y a
 | [Stack tecnológico](docs/03-stack.md) | Herramientas y tecnologías utilizadas |
 | [Fases del proyecto](docs/04-fases.md) | Hoja de ruta e hitos |
 | [Biblioteca de contenido](docs/05-biblioteca-contenido.md) | Estructura del repositorio multimedia |
+| [MCPs e integraciones](docs/06-mcps-e-integraciones.md) | MCPs de Claude, generación de imágenes y captura de comentarios |
 
 ## Estado actual
 

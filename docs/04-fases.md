@@ -3,8 +3,8 @@
 ## Hoja de ruta
 
 ```
-Fase 0 ──► Fase 1 ──► Fase 2 ──► Fase 3 ──► Fase 4
- Setup      Instagram   Web        Etsy       Pulido
+Fase 0 ──► Fase 1 ──► Fase 2 ──► Fase 3 ──► Fase 4 ──► Fase 5
+ Setup      Instagram   Web        Etsy       MCPs       Pulido
 ```
 
 ---
@@ -70,6 +70,32 @@ Fase 0 ──► Fase 1 ──► Fase 2 ──► Fase 3 ──► Fase 4
 - [ ] Documentar proceso de instalación para la usuaria
 - [ ] Exportar VM como `.ova`
 - [ ] Prueba de importación en PC de la usuaria
+- [ ] Formación y entrega
+
+---
+
+## Fase 4 — MCPs e IA generativa
+
+**Objetivo:** ampliar las capacidades del sistema con MCPs y generación de imágenes.
+
+- [ ] Configurar MCP SQLite en Claude Desktop
+- [ ] Configurar MCP Email (Gmail/Outlook) para captura de comentarios Etsy y Stories
+- [ ] Crear workflow N8N "file-watcher" para detectar nuevos assets automáticamente
+- [ ] Integrar API de generación de imágenes (Flux via Replicate o DALL-E)
+- [ ] Crear workflow N8N "generar-imagen" disparado por webhook
+- [ ] Probar flujo completo: chat → imagen generada → guardada en media/ → publicada
+
+---
+
+## Fase 5 — Pulido y exportación
+
+**Objetivo:** preparar el sistema para la usuaria final.
+
+- [ ] Optimizar consumo de recursos de la VM
+- [ ] Crear sistema de notificaciones (Telegram bot o email)
+- [ ] Documentar proceso de instalación para la usuaria
+- [ ] Exportar VM como `.ova`
+- [ ] Prueba de importación en PC de la usuaria con VMware Player
 - [ ] Formación y entrega
 
 ---
