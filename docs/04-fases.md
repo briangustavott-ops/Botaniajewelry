@@ -3,8 +3,8 @@
 ## Hoja de ruta
 
 ```
-Fase 0 ──► Fase 1 ──► Fase 2 ──► Fase 3 ──► Fase 4 ──► Fase 5
- Setup      Instagram   Web        Etsy       MCPs       Pulido
+Fase 0 ──► Fase 1 ──► Fase 2 ──► Fase 3 ──► Fase 4 ──► Fase 5 ──► Fase 6
+ Setup     Drive+IA   Frontend  Instagram    Web        Etsy       Pulido
 ```
 
 ---
@@ -15,84 +15,91 @@ Fase 0 ──► Fase 1 ──► Fase 2 ──► Fase 3 ──► Fase 4 ─�
 
 - [x] Crear repositorio en GitHub
 - [x] Documentación inicial del proyecto
+- [x] Mockups del frontend
 - [ ] Crear VM Ubuntu Server en VMware Workstation
 - [ ] Instalar Docker + Docker Compose en la VM
 - [ ] Levantar N8N en la VM
-- [ ] Configurar carpeta compartida (Windows ↔ VM)
-- [ ] Crear estructura de carpetas de la biblioteca de contenido
 - [ ] Crear base de datos SQLite con esquema inicial
 - [ ] Configurar `.env` con claves API
 
 ---
 
-## Fase 1 — Publicación en Instagram
+## Fase 1 — Google Drive + análisis IA
 
-**Objetivo:** primer workflow funcional que publique en Instagram.
+**Objetivo:** el sistema detecta contenido nuevo en Google Drive y lo analiza automáticamente con IA.
 
-- [ ] Configurar cuenta Business en Instagram
-- [ ] Obtener token Meta Graph API
-- [ ] Crear workflow N8N: seleccionar foto → generar caption con Claude → publicar en Instagram
-- [ ] Probar publicación manual desde N8N
-- [ ] Configurar trigger de cron (publicación automática)
-- [ ] Validar con la usuaria
+- [ ] Configurar Google Drive API y credenciales OAuth
+- [ ] Crear estructura de carpetas en Google Drive (`entrada/`, `instagram/`, `etsy/`, etc.)
+- [ ] Crear workflow N8N: Watch Google Drive → descargar archivo → llamar a Claude Vision
+- [ ] Claude Vision analiza imagen: tipo, colores, materiales, plataforma sugerida, caption ES+EN, hashtags
+- [ ] Guardar resultado en SQLite con estado `pendiente_revision`
+- [ ] Probar flujo completo: sube foto desde móvil → aparece en SQLite con sugerencias
 
 ---
 
-## Fase 2 — Publicación en web propia
+## Fase 2 — Frontend (panel de control)
 
-**Objetivo:** ampliar el workflow a la web de la usuaria.
+**Objetivo:** la gestora puede gestionar todo el sistema desde una interfaz web.
+
+- [ ] Crear proyecto FastAPI con Docker
+- [ ] Implementar sección: Bandeja de revisión (aprobar/editar/descartar assets)
+- [ ] Implementar sección: Subir contenido (drag & drop + análisis IA)
+- [ ] Implementar sección: Biblioteca (grid con filtros)
+- [ ] Implementar sección: Gestión de APIs (estado de tokens)
+- [ ] Integrar frontend con SQLite y N8N webhooks
+- [ ] Validar con la gestora (UX y flujo)
+
+---
+
+## Fase 3 — Publicación en Instagram
+
+**Objetivo:** primer workflow funcional de publicación automática en Instagram.
+
+- [ ] Configurar cuenta Business en Instagram + página de Facebook
+- [ ] Obtener y configurar token Meta Graph API (60 días)
+- [ ] Crear workflow N8N: seleccionar asset disponible → generar caption → publicar en Instagram
+- [ ] Implementar sección "Publicar" en el frontend (publicación manual)
+- [ ] Configurar trigger de cron (publicación automática programada)
+- [ ] Implementar renovación de token desde el panel ⚙️
+- [ ] Validar con la gestora
+
+---
+
+## Fase 4 — Publicación en web propia
+
+**Objetivo:** ampliar el workflow a la web de la gestora.
 
 - [ ] Identificar CMS de la web (WordPress, Shopify, otro)
 - [ ] Configurar API del CMS
 - [ ] Crear workflow N8N para publicación web
-- [ ] Adaptar prompts de IA para formato web
-- [ ] Integrar con el workflow principal
+- [ ] Adaptar prompts de IA para formato web (más largo, SEO)
+- [ ] Añadir web como opción en la sección "Publicar" del frontend
 
 ---
 
-## Fase 3 — Publicación en Etsy
+## Fase 5 — Etsy (listings + publicación)
 
-**Objetivo:** automatizar actualizaciones de listings en Etsy.
+**Objetivo:** crear y publicar productos en Etsy desde el frontend.
 
 - [ ] Registrar aplicación en Etsy Developers
 - [ ] Configurar OAuth 2.0
-- [ ] Crear workflow para actualización de fotos y descripciones
-- [ ] Definir qué se automatiza (fotos, descripciones, temporadas)
+- [ ] Implementar sección "Productos Etsy" en el frontend
+- [ ] Integrar Claude Vision para generar listing completo en inglés
+- [ ] Crear workflow N8N: crear draft en Etsy → publicar
+- [ ] Añadir Etsy como destino en el workflow de publicación automática
 
 ---
 
-## Fase 4 — Pulido y exportación
+## Fase 6 — MCPs, IA generativa y pulido final
 
-**Objetivo:** preparar el sistema para la usuaria final.
-
-- [ ] Optimizar consumo de recursos de la VM
-- [ ] Crear panel de control simple (o Telegram bot) para monitorización
-- [ ] Documentar proceso de instalación para la usuaria
-- [ ] Exportar VM como `.ova`
-- [ ] Prueba de importación en PC de la usuaria
-- [ ] Formación y entrega
-
----
-
-## Fase 4 — MCPs e IA generativa
-
-**Objetivo:** ampliar las capacidades del sistema con MCPs y generación de imágenes.
+**Objetivo:** ampliar capacidades con MCPs, generación de imágenes y preparar la entrega.
 
 - [ ] Configurar MCP SQLite en Claude Desktop
-- [ ] Configurar MCP Email (Gmail/Outlook) para captura de comentarios Etsy y Stories
-- [ ] Crear workflow N8N "file-watcher" para detectar nuevos assets automáticamente
-- [ ] Integrar API de generación de imágenes (Flux via Replicate o DALL-E)
-- [ ] Crear workflow N8N "generar-imagen" disparado por webhook
-- [ ] Probar flujo completo: chat → imagen generada → guardada en media/ → publicada
-
----
-
-## Fase 5 — Pulido y exportación
-
-**Objetivo:** preparar el sistema para la usuaria final.
-
+- [ ] Configurar MCP Email para captura de comentarios Etsy y Stories
+- [ ] Integrar API Flux (Replicate) para generación de imágenes bajo petición
+- [ ] Crear workflow N8N `generar-imagen` disparado por webhook del frontend o Claude Desktop
 - [ ] Optimizar consumo de recursos de la VM
-- [ ] Crear sistema de notificaciones (Telegram bot o email)
+- [ ] Crear sistema de notificaciones (email o Telegram)
 - [ ] Documentar proceso de instalación para la usuaria
 - [ ] Exportar VM como `.ova`
 - [ ] Prueba de importación en PC de la usuaria con VMware Player
@@ -103,6 +110,8 @@ Fase 0 ──► Fase 1 ──► Fase 2 ──► Fase 3 ──► Fase 4 ─�
 ## Criterios de éxito
 
 - El sistema publica contenido de forma autónoma al menos 3 veces por semana en Instagram
-- La gestora solo necesita añadir nuevas fotos a la carpeta de medios
-- El sistema corre en background sin afectar al rendimiento del PC
-- En caso de error, la gestora recibe una notificación
+- La gestora puede subir una foto desde el móvil y tenerla lista para publicar en menos de 2 minutos
+- El frontend permite gestionar todo el sistema sin conocimientos técnicos
+- La VM corre en background sin afectar al rendimiento del PC
+- En caso de error, la gestora recibe una notificación clara
+- El sistema es exportable e instalable en el PC de la usuaria en menos de 1 hora
