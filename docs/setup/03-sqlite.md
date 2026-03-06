@@ -35,6 +35,8 @@ git clone https://github.com/briangustavott-ops/Botaniajewelry.git botania-repo
 bash ~/botania-repo/database/init.sh
 ```
 
+> El script detecta su propia ubicación automáticamente — funciona desde cualquier ruta donde esté clonado el repositorio.
+
 Salida esperada:
 ```
 ✅ Base de datos creada en /home/bjadmin/botania/data/db/assets.db

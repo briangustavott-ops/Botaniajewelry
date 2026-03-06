@@ -149,6 +149,7 @@ Pendiente: base de datos SQLite · variables de entorno (.env)
 Botaniajewelry/
 ├── docs/
 │   ├── mockups/            # Mockups SVG del frontend
+│   ├── setup/              # Guías de instalación paso a paso
 │   ├── 01-vision.md
 │   ├── 02-arquitectura.md
 │   ├── 03-stack.md
@@ -156,6 +157,11 @@ Botaniajewelry/
 │   ├── 05-biblioteca-contenido.md
 │   ├── 06-mcps-e-integraciones.md
 │   └── 07-frontend.md
+├── infra/                  # Configuración de infraestructura (VM)
+│   └── docker-compose.yml  # Servicios Docker (N8N + volúmenes)
+├── database/               # Base de datos SQLite
+│   ├── schema.sql          # Esquema de tablas y vistas
+│   └── init.sh             # Script de inicialización
 ├── workflows/              # Workflows de N8N exportados (JSON)
 ├── prompts/                # Prompts de IA por plataforma
 ├── frontend/               # Código del panel de control (FastAPI)
