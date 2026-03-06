@@ -16,7 +16,8 @@ Fase 0 ──► Fase 1 ──► Fase 2 ──► Fase 3 ──► Fase 4 ─�
 - [x] Crear repositorio en GitHub
 - [x] Documentación inicial del proyecto
 - [x] Mockups del frontend
-- [ ] Crear VM Ubuntu Server en VMware Workstation
+- [x] Crear VM Ubuntu Server en VMware Workstation
+- [x] Configurar red: NAT (internet) + Host-Only 192.168.137.10 (host↔VM)
 - [ ] Instalar Docker + Docker Compose en la VM
 - [ ] Levantar N8N en la VM
 - [ ] Crear base de datos SQLite con esquema inicial
