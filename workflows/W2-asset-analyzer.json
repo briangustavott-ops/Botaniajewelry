@@ -32,7 +32,7 @@
       "parameters": {
         "operation": "executeQuery",
         "database": "/data/db/assets.db",
-        "query": "UPDATE assets SET estado = 'analizando' WHERE id = {{ $('Webhook').first().json.asset_id }}",
+        "query": "UPDATE assets SET estado = 'analizando' WHERE id = {{ $json.id }}",
         "options": {}
       },
       "id": "w2-node-03",
@@ -43,24 +43,34 @@
     },
     {
       "parameters": {
+        "jsCode": "// El UPDATE anterior no devuelve filas.\n// Este nodo recupera los datos del asset desde Get Asset\n// y los pasa al siguiente nodo para que Read Image tenga el archivo.\nconst asset = $('Get Asset').first().json;\nreturn [{ json: asset }];"
+      },
+      "id": "w2-node-03b",
+      "name": "Restore Asset Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [760, 300]
+    },
+    {
+      "parameters": {
         "dataPropertyName": "data",
-        "fileName": "={{ $('Get Asset').first().json.archivo }}"
+        "fileName": "={{ $json.archivo }}"
       },
       "id": "w2-node-04",
       "name": "Read Image",
       "type": "n8n-nodes-base.readBinaryFile",
       "typeVersion": 1,
-      "position": [760, 300]
+      "position": [980, 300]
     },
     {
       "parameters": {
-        "jsCode": "const item = $input.first();\nconst bin = item.binary?.data;\nif (!bin) throw new Error('No se encontró la imagen en el path indicado');\n\nconst assetId = $('Webhook').first().json.asset_id;\nconst mimeType = bin.mimeType || 'image/jpeg';\nconst base64 = bin.data;\n\nconst prompt = `Analiza esta imagen de joyería artesanal de resina. Responde ÚNICAMENTE con un JSON válido con esta estructura exacta, sin texto adicional ni bloques de código markdown:\n\n{\n  \"tipo\": \"foto\",\n  \"categoria\": \"pendientes\" | \"anillos\" | \"colgantes\" | null,\n  \"colores\": \"colores principales de la pieza y flores\",\n  \"materiales\": \"materiales detectados separados por coma (resina, flores secas, metal dorado...)\",\n  \"caption_es\": \"caption atractivo en español para Instagram y web, máx 150 caracteres\",\n  \"caption_en\": \"attractive English caption for Etsy listing, max 150 characters\",\n  \"hashtags\": \"#resinajewelry #joyeriaresina #handmadejewelry #joyeriaartesanal #flowerjewelry (8-12 hashtags)\",\n  \"plataformas_destino\": \"instagram,web,etsy\" | \"instagram,web\" | \"instagram\",\n  \"descripcion\": \"descripción breve del producto en español\"\n}\n\nCriterio para plataformas_destino:\n- Incluir siempre instagram para fotografías\n- Incluir web si la composición y calidad son buenas para catálogo\n- Incluir etsy SOLO si el producto se ve claramente con fondo neutro/blanco y buena iluminación`;\n\nconst claudePayload = {\n  model: 'claude-opus-4-5',\n  max_tokens: 1024,\n  messages: [{\n    role: 'user',\n    content: [\n      {\n        type: 'image',\n        source: { type: 'base64', media_type: mimeType, data: base64 }\n      },\n      { type: 'text', text: prompt }\n    ]\n  }]\n};\n\nreturn [{ json: { assetId, claudePayload } }];"
+        "jsCode": "const item = $input.first();\nconst bin = item.binary?.data;\nif (!bin) throw new Error('No se encontró la imagen: ' + $('Restore Asset Data').first().json.archivo);\n\nconst assetId = $('Webhook').first().json.asset_id;\nconst mimeType = bin.mimeType || 'image/jpeg';\nconst base64 = bin.data;\n\nconst prompt = `Analiza esta imagen de joyería artesanal de resina. Responde ÚNICAMENTE con un JSON válido con esta estructura exacta, sin texto adicional ni bloques de código markdown:\n\n{\n  \"tipo\": \"foto\",\n  \"categoria\": \"pendientes\" | \"anillos\" | \"colgantes\" | null,\n  \"colores\": \"colores principales de la pieza y flores\",\n  \"materiales\": \"materiales detectados separados por coma (resina, flores secas, metal dorado...)\",\n  \"caption_es\": \"caption atractivo en español para Instagram y web, máx 150 caracteres\",\n  \"caption_en\": \"attractive English caption for Etsy listing, max 150 characters\",\n  \"hashtags\": \"#resinajewelry #joyeriaresina #handmadejewelry #joyeriaartesanal #flowerjewelry (8-12 hashtags)\",\n  \"plataformas_destino\": \"instagram,web,etsy\" | \"instagram,web\" | \"instagram\",\n  \"descripcion\": \"descripción breve del producto en español\"\n}\n\nCriterio para plataformas_destino:\n- Incluir siempre instagram para fotografías\n- Incluir web si la composición y calidad son buenas para catálogo\n- Incluir etsy SOLO si el producto se ve claramente con fondo neutro/blanco y buena iluminación`;\n\nconst claudePayload = {\n  model: 'claude-opus-4-5',\n  max_tokens: 1024,\n  messages: [{\n    role: 'user',\n    content: [\n      {\n        type: 'image',\n        source: { type: 'base64', media_type: mimeType, data: base64 }\n      },\n      { type: 'text', text: prompt }\n    ]\n  }]\n};\n\nreturn [{ json: { assetId, claudePayload } }];"
       },
       "id": "w2-node-05",
       "name": "Build Claude Payload",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [980, 300]
+      "position": [1200, 300]
     },
     {
       "parameters": {
@@ -83,17 +93,17 @@
       "name": "Claude Vision",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
-      "position": [1200, 300]
+      "position": [1420, 300]
     },
     {
       "parameters": {
-        "jsCode": "const response = $input.first().json;\nconst assetId = $('Webhook').first().json.asset_id;\n\ntry {\n  const text = response.content?.[0]?.text;\n  if (!text) throw new Error('Respuesta vacía de Claude');\n\n  // Extraer JSON (eliminar posibles bloques markdown)\n  const match = text.match(/\\{[\\s\\S]*\\}/);\n  if (!match) throw new Error('No se encontró JSON en la respuesta de Claude');\n\n  const parsed = JSON.parse(match[0]);\n\n  return [{\n    json: {\n      assetId,\n      success: true,\n      tipo:               parsed.tipo               || 'foto',\n      categoria:          parsed.categoria           || null,\n      colores:            parsed.colores             || '',\n      materiales:         parsed.materiales          || '',\n      caption_es:         parsed.caption_es          || '',\n      caption_en:         parsed.caption_en          || '',\n      hashtags:           parsed.hashtags            || '',\n      plataformas_destino: parsed.plataformas_destino || 'instagram',\n      descripcion:        parsed.descripcion         || ''\n    }\n  }];\n} catch(e) {\n  return [{\n    json: { assetId, success: false, error: e.message }\n  }];\n}"
+        "jsCode": "const response = $input.first().json;\nconst assetId = $('Webhook').first().json.asset_id;\n\ntry {\n  const text = response.content?.[0]?.text;\n  if (!text) throw new Error('Respuesta vacía de Claude');\n\n  // Extraer JSON (eliminar posibles bloques markdown)\n  const match = text.match(/\\{[\\s\\S]*\\}/);\n  if (!match) throw new Error('No se encontró JSON en la respuesta de Claude');\n\n  const parsed = JSON.parse(match[0]);\n\n  return [{\n    json: {\n      assetId,\n      success: true,\n      tipo:                parsed.tipo                || 'foto',\n      categoria:           parsed.categoria            || null,\n      colores:             parsed.colores              || '',\n      materiales:          parsed.materiales           || '',\n      caption_es:          parsed.caption_es           || '',\n      caption_en:          parsed.caption_en           || '',\n      hashtags:            parsed.hashtags             || '',\n      plataformas_destino: parsed.plataformas_destino  || 'instagram',\n      descripcion:         parsed.descripcion          || ''\n    }\n  }];\n} catch(e) {\n  return [{\n    json: { assetId, success: false, error: e.message }\n  }];\n}"
       },
       "id": "w2-node-07",
       "name": "Parse Response",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1420, 300]
+      "position": [1640, 300]
     },
     {
       "parameters": {
@@ -112,7 +122,7 @@
       "name": "Analysis OK?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [1640, 300]
+      "position": [1860, 300]
     },
     {
       "parameters": {
@@ -125,7 +135,7 @@
       "name": "Update Success",
       "type": "CUSTOM.sqlite",
       "typeVersion": 1,
-      "position": [1860, 180]
+      "position": [2080, 180]
     },
     {
       "parameters": {
@@ -138,7 +148,7 @@
       "name": "Update Error",
       "type": "CUSTOM.sqlite",
       "typeVersion": 1,
-      "position": [1860, 420]
+      "position": [2080, 420]
     },
     {
       "parameters": {
@@ -150,7 +160,7 @@
       "name": "Respond OK",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
-      "position": [2080, 180]
+      "position": [2300, 180]
     },
     {
       "parameters": {
@@ -162,17 +172,18 @@
       "name": "Respond Error",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
-      "position": [2080, 420]
+      "position": [2300, 420]
     }
   ],
   "connections": {
-    "Webhook":             { "main": [[{ "node": "Get Asset",          "type": "main", "index": 0 }]] },
-    "Get Asset":           { "main": [[{ "node": "Set Analizando",     "type": "main", "index": 0 }]] },
-    "Set Analizando":      { "main": [[{ "node": "Read Image",         "type": "main", "index": 0 }]] },
+    "Webhook":             { "main": [[{ "node": "Get Asset",           "type": "main", "index": 0 }]] },
+    "Get Asset":           { "main": [[{ "node": "Set Analizando",      "type": "main", "index": 0 }]] },
+    "Set Analizando":      { "main": [[{ "node": "Restore Asset Data",  "type": "main", "index": 0 }]] },
+    "Restore Asset Data":  { "main": [[{ "node": "Read Image",          "type": "main", "index": 0 }]] },
     "Read Image":          { "main": [[{ "node": "Build Claude Payload","type": "main", "index": 0 }]] },
-    "Build Claude Payload":{ "main": [[{ "node": "Claude Vision",      "type": "main", "index": 0 }]] },
-    "Claude Vision":       { "main": [[{ "node": "Parse Response",     "type": "main", "index": 0 }]] },
-    "Parse Response":      { "main": [[{ "node": "Analysis OK?",       "type": "main", "index": 0 }]] },
+    "Build Claude Payload":{ "main": [[{ "node": "Claude Vision",       "type": "main", "index": 0 }]] },
+    "Claude Vision":       { "main": [[{ "node": "Parse Response",      "type": "main", "index": 0 }]] },
+    "Parse Response":      { "main": [[{ "node": "Analysis OK?",        "type": "main", "index": 0 }]] },
     "Analysis OK?": {
       "main": [
         [{ "node": "Update Success", "type": "main", "index": 0 }],
